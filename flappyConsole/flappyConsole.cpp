@@ -3,9 +3,33 @@
 
 #include "pch.h"
 #include <iostream>
+#include <windows.h>
+
+using namespace std;
 
 int main() {
-    std::cout << "Hello World!\n"; 
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	int columns, rows;
+
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+	rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+
+	cout << "columns: " << columns << endl;
+	cout << "rows: " << rows << endl;
+
+	system("CLS");
+
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < columns; j++) {
+			cout << "X";
+		}
+		if (i < rows - 1) {
+			cout << endl;
+		}
+	}
+
+	Sleep(10000);
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
