@@ -24,6 +24,10 @@ void Bird::update() {
 
 	position += velocity * deltaT.count();
 	velocity += accel * deltaT.count();
+
+	if (position < 0) {
+		position = 0;
+	}
 }
 
 double Bird::getPosition() {

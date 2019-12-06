@@ -15,11 +15,11 @@ void setup() {
 void draw(double position) {
 	system("cls");
 
-	for (int i = 30; i > 0; i--) {
+	for (int i = 29; i >= 0; i--) {
 		if (i == (int) position) {
-			cout << "O" << endl;
+			cout << "O";
 		}
-		else {
+		if (i != 0) {
 			cout << endl;
 		}
 	}
