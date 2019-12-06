@@ -2,12 +2,62 @@
 //
 
 #include "pch.h"
+#include "bird.h"
 #include <iostream>
 #include <windows.h>
 
 using namespace std;
 
+void setup() {
+
+}
+
+void draw(double position) {
+	system("cls");
+
+	for (int i = 30; i > 0; i--) {
+		if (i == (int) position) {
+			cout << "O" << endl;
+		}
+		else {
+			cout << endl;
+		}
+	}
+}
+
+void getInput() {
+
+}
+
+void updateModel(Bird* bird) {
+	bird->update();
+}
+
+void updateDisplay(char pixel[30][120]) {
+	for (int i = 0; i < 30; i++) {
+		for (int j = 0; j < 120; j++) {
+			cout << pixel[i][j];
+		}
+	}
+}
+
 int main() {
+	// TODO: Define console size as 30, 120... Maybe set it somehow
+
+	Bird bird = Bird(30);
+
+	bool done = false;
+
+	setup();
+
+	while (!done) {
+		draw(bird.getPosition());
+		getInput();
+		updateModel(&bird);
+		Sleep(50);
+	}
+
+	// Find console dimensions
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
 	int columns, rows;
 
@@ -18,16 +68,23 @@ int main() {
 	cout << "columns: " << columns << endl;
 	cout << "rows: " << rows << endl;
 
+	// Clear console
 	system("CLS");
+
+	char pixel[30][120];
 
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < columns; j++) {
-			cout << "X";
-		}
-		if (i < rows - 1) {
-			cout << endl;
+			if (i == j / 4) {
+				pixel[i][j] = ' ';
+			}
+			else {
+				pixel[i][j] = 'X';
+			}
 		}
 	}
+
+	updateDisplay(pixel);
 
 	Sleep(10000);
 }
