@@ -5,11 +5,17 @@
 #include "bird.h"
 #include <iostream>
 #include <windows.h>
+#include <conio.h>
 
 using namespace std;
 
-void setup() {
+bool press;
+bool done;
+Bird bird = Bird(30);
 
+void setup() {
+	press = false;
+	done = false;
 }
 
 void draw(double position) {
@@ -26,67 +32,30 @@ void draw(double position) {
 }
 
 void getInput() {
-
-}
-
-void updateModel(Bird* bird) {
-	bird->update();
-}
-
-void updateDisplay(char pixel[30][120]) {
-	for (int i = 0; i < 30; i++) {
-		for (int j = 0; j < 120; j++) {
-			cout << pixel[i][j];
+	if (_kbhit()) {
+		if (_getch() == 'a') {
+			press = true;
 		}
 	}
 }
 
+void updateModel() {
+	bird.setFlap(press);
+	press = false;
+	bird.update();
+}
+
 int main() {
 	// TODO: Define console size as 30, 120... Maybe set it somehow
-
-	Bird bird = Bird(30);
-
-	bool done = false;
 
 	setup();
 
 	while (!done) {
 		draw(bird.getPosition());
 		getInput();
-		updateModel(&bird);
+		updateModel();
 		Sleep(50);
 	}
-
-	// Find console dimensions
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	int columns, rows;
-
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-	columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-	rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
-
-	cout << "columns: " << columns << endl;
-	cout << "rows: " << rows << endl;
-
-	// Clear console
-	system("CLS");
-
-	char pixel[30][120];
-
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < columns; j++) {
-			if (i == j / 4) {
-				pixel[i][j] = ' ';
-			}
-			else {
-				pixel[i][j] = 'X';
-			}
-		}
-	}
-
-	updateDisplay(pixel);
-
-	Sleep(10000);
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

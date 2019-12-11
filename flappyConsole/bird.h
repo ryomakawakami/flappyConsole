@@ -11,7 +11,7 @@ public:
 	void setFlap(bool f);
 
 private:
-	bool flap;
+	bool input;
 	double position;
 	double velocity;
 	std::chrono::system_clock::time_point oldTime;

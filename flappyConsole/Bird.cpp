@@ -3,7 +3,7 @@
 #include "chrono"
 
 Bird::Bird(int p) {
-	flap = false;
+	input = false;
 	position = p;
 	velocity = 0;
 	oldTime = std::chrono::system_clock::now();
@@ -17,9 +17,13 @@ void Bird::update() {
 	std::chrono::duration<double> deltaT = currentTime - oldTime;
 	oldTime = currentTime;
 
-	double accel = -2;
-	if (flap) {
-		accel = 2;
+	double accel = -15;
+	if (input) {
+		accel = 15;
+	}
+
+	if (input) {
+		velocity = 2.5;
 	}
 
 	position += velocity * deltaT.count();
@@ -35,5 +39,5 @@ double Bird::getPosition() {
 }
 
 void Bird::setFlap(bool f) {
-	flap = f;
+	input = f;
 }
